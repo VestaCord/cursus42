@@ -6,7 +6,7 @@
 /*   By: vtian <vtian@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 21:36:40 by vtian             #+#    #+#             */
-/*   Updated: 2025/06/14 18:49:14 by vtian            ###   ########.fr       */
+/*   Updated: 2025/06/30 22:56:22 by vtian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ void	pad(FILE *s, t_state *state, UCHAR_T *string, int width);
 void	pad_zero(FILE *s, t_state *state, UCHAR_T *string, int width);
 
 void	outstring(FILE *s, int *done, const CHAR_T *string, int len);
+
+char	*ft_utoa(unsigned int n, int base);
 
 void	spec_conversion_char(FILE *s, va_list ap, t_state *state,
 			t_dispatch_step *table);

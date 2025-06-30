@@ -1,39 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*   flag_alternate_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vtian <vtian@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/27 21:06:37 by vtian             #+#    #+#             */
-/*   Updated: 2025/05/27 21:22:21 by vtian            ###   ########.fr       */
+/*   Created: 2025/06/30 23:01:43 by vtian             #+#    #+#             */
+/*   Updated: 2025/06/30 23:02:02 by vtian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_printf_internal.h"
+#include "ft_printf_internal_bonus.h"
 #include "libft.h"
 
-void	ft_putnbr_fd(int n, int fd)
+void	spec_flag_alt_form(FILE *s, va_list ap, t_state *state,
+	t_dispatch_step *table)
 {
-	char		c;
-
-	if (n == -2147483648)
+	(void)s;
+	(void)ap;
+	if (*table == STEP_FLAGS_WIDTH_PRECISION_FORMAT)
 	{
-		write(fd, "-2147483648", 11);
-		return ;
-	}
-	if (n < 0)
-	{
-		write(fd, "-", 1);
-		n *= -1;
-	}
-	if (n > 9)
-	{
-		ft_putnbr_fd((n / 10), fd);
-		ft_putnbr_fd((n % 10), fd);
+		state->spec->alt = 1;
+		++(state->f);
 	}
 	else
 	{
-		c = n + '0';
-		write(fd, &c, 1);
+		state->err = 1;
+		*table = NONE;
 	}
 }

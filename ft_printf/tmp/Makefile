@@ -14,7 +14,7 @@ CFLAGS			= -Wall -Wextra -I.. -I../libft
 LDFLAGS			= -L.. -L../libft
 LDLIBS			= -lftprintf -lft
 
-NAME			= a.out
+NAME			= ftprintftester
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@

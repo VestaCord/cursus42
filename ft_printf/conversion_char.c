@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcmp.c                                        :+:      :+:    :+:   */
+/*   specifier_c.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vtian <vtian@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/22 18:24:28 by vtian             #+#    #+#             */
-/*   Updated: 2025/05/22 19:55:13 by vtian            ###   ########.fr       */
+/*   Created: 2025/06/30 22:51:47 by vtian             #+#    #+#             */
+/*   Updated: 2025/06/30 22:51:57 by vtian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_printf_internal.h"
 #include "libft.h"
 
-int	ft_memcmp(const void *s1, const void *s2, size_t n)
-// doesn't check for nullptr, will crash, expected
+void	spec_conversion_char(FILE *s, va_list ap, t_state *state,
+	t_dispatch_step *table)
 {
-	size_t	i;
+	UCHAR_T	c[2];
 
-	i = 0;
-	while (i < n)
-	{
-		if (*(unsigned char *)(s1 + i) != *(unsigned char *)(s2 + i))
-			return (*(unsigned char *)(s1 + i) - *(unsigned char *)(s2 + i));
-		i++;
-	}
-	return (0);
+	ft_memset(c, 0, 2);
+	*c = (unsigned char)va_arg(ap, int);
+	if (!state->spec->left)
+		pad(s, state, c, state->spec->width);
+	outstring(s, &state->done, (CHAR_T *)c, 1);
+	if (state->spec->left)
+		pad(s, state, c, state->spec->width);
+	*table = NONE;
 }

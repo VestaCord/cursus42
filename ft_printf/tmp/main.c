@@ -100,7 +100,7 @@ void	ft_printf_header(char *s)
 	printf("\n");
 }
 
-int main(void) {
+int main(int argc, char **argv) {
     int i = 2147483647;
     int neg = -2147483648;
     unsigned int u = 4294967295;
@@ -108,14 +108,46 @@ int main(void) {
     char *s = "hello";
     void *p = &i;
 
-	setvbuf(stdout, NULL, _IONBF, 0);
+	if (argc != 2 || (argv[1][0] != 'a' && argv[1][0] != 'm'
+		&& argv[1][0] != 'b'))
+	{
+		printf("Usage: ftprintftester m(andatory) | b(onus) | a(ll)\n");
+		exit (1);
+	}
+	setvbuf(stdout, NULL, _IONBF, 0); // buffer flush immediately
 	printf("%-52s%-52s\n", "printf", "ftprintf");
 	for (int x = 0; x < 104; x++)
 		printf("-");
 	printf("\n");
-	// No Specifiers
-	ft_printf_tester("raw: This is the most basic test");
 
+	if (argv[1][0] != 'b')
+	{
+		printf("%-104s\n", "MANDATORY TESTS");
+		for (int x = 0; x < 104; x++)
+			printf("-");
+		printf("\n");
+		ft_printf_tester("raw: This is the most basic test");
+		ft_printf_header("CHARACTERS");
+		ft_printf_tester("char:    [%c]", c);
+		ft_printf_header("STRINGS");
+    	ft_printf_tester("string:       [%s]", s);
+		ft_printf_header("POINTERS");
+		ft_printf_tester("pointer: [%p]", p);
+		p = (void *)0x100;
+		ft_printf_tester("pointer: [%p]", p);
+		ft_printf_header("INT");
+    	ft_printf_tester("int d,i,u:    [%d, %i, %u]", i, neg, u);
+		ft_printf_header("HEX");
+    	ft_printf_tester("HEX:          [%X]", u); 
+    	ft_printf_tester("hex:          [%x]", u);
+	}
+	if (argv[1][0] == 'm')
+		exit (0);
+	
+	printf("%-104s\n", "BONUS TESTS");
+	for (int x = 0; x < 104; x++)
+		printf("-");
+	printf("\n");
 	ft_printf_header("CHARACTERS");
 	ft_printf_tester("char:    [%c]", c);
 	ft_printf_tester("char left:    [%-5c]", c);

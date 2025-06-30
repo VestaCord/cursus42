@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dispatch.c                                         :+:      :+:    :+:   */
+/*   dispatch_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vtian <vtian@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:20:11 by vtian             #+#    #+#             */
-/*   Updated: 2025/06/30 23:11:15 by vtian            ###   ########.fr       */
+/*   Updated: 2025/06/30 23:10:32 by vtian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,22 @@ static const t_dispatch_handler	g_dispatch_table[('x' + 1)] = {
 ['u'] = spec_conversion_uint,
 ['x'] = spec_conversion_hex,
 ['X'] = spec_conversion_hex,
-['%'] = spec_conversion_percent
+['%'] = spec_conversion_percent,
+['-'] = spec_flag_left_align_override,
+['0'] = spec_flag_zero_pad,
+['.'] = spec_precision,
+['#'] = spec_flag_alt_form,
+[' '] = spec_flag_space,
+['+'] = spec_flag_plus_override,
+['1'] = spec_raw_digit,
+['2'] = spec_raw_digit,
+['3'] = spec_raw_digit,
+['4'] = spec_raw_digit,
+['5'] = spec_raw_digit,
+['6'] = spec_raw_digit,
+['7'] = spec_raw_digit,
+['8'] = spec_raw_digit,
+['9'] = spec_raw_digit
 };
 
 void	dispatch(FILE *s, va_list ap, t_state *state)

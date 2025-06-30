@@ -1,4 +1,6 @@
-SRCS			=	ft_printf.c dispatch.c dispatch_cspdi.c dispatch_uxX.c
+SRCS			=	conversion_char.c conversion_hex.c conversion_int.c conversion_percent.c \
+					conversion_ptr.c conversion_str.c conversion_uint.c dispatch.c \
+					ft_printf.c 
 
 # substituition syntax $(VARIABLE:OLD_PREFIX%OLD_SUFFIX=NEW_PREFIX%NEW_SUFFIX)
 # this implicitly compiles as below:
@@ -6,7 +8,12 @@ SRCS			=	ft_printf.c dispatch.c dispatch_cspdi.c dispatch_uxX.c
 # 	${CC} ${CFLAGS} -c $< -o $@ # here, $@ is also ${<:.c=.o}
 OBJS			= $(SRCS:.c=.o)
 
-BONUS			=	dispatch_%.123456789\#_bonus.c dispatch_-0+_bonus.c
+BONUS			=	conversion_char.c conversion_hex.c conversion_int.c conversion_percent.c \
+					conversion_ptr.c conversion_str.c conversion_uint.c \
+					ft_printf_bonus.c dispatch_bonus.c flag_alternate_bonus.c flag_left_bonus.c \
+					flag_plus_bonus.c flag_space_bonus.c flag_zero_bonus.c \
+					width_and_precision_bonus.c
+
 BONUS_OBJS		= $(BONUS:.c=.o)
 
 CC				= gcc
@@ -32,8 +39,8 @@ fclean:			clean
 re:				fclean $(NAME)
 				cd libft && make $@
 
-bonus:			$(OBJS) $(BONUS_OBJS)
-				ar rcs $(NAME) $(OBJS) $(BONUS_OBJS)
+bonus:			$(BONUS_OBJS)
+				ar rcs $(NAME) $(BONUS_OBJS)
 
 allft:
 				cd libft && make all

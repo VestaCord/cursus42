@@ -1,36 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   flag_left_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vtian <vtian@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/26 23:13:16 by vtian             #+#    #+#             */
-/*   Updated: 2025/05/26 23:18:24 by vtian            ###   ########.fr       */
+/*   Created: 2025/06/30 22:59:32 by vtian             #+#    #+#             */
+/*   Updated: 2025/06/30 22:59:33 by vtian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "ft_printf_internal.h"
+#include "ft_printf_internal_bonus.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+void	spec_flag_left_align_override(FILE *s, va_list ap, t_state *state,
+	t_dispatch_step *table)
 {
-	char	*new;
-	size_t	i;
-
-	new = malloc(sizeof(*new) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (!new)
-		return (NULL);
-	i = 0;
-	while (*s1)
+	(void)s;
+	(void)ap;
+	if (*table == STEP_FLAGS_WIDTH_PRECISION_FORMAT)
 	{
-		new[i++] = *s1;
-		s1++;
+		state->spec->left = 1;
+		state->spec->pad = ' ';
+		++(state->f);
 	}
-	while (*s2)
+	else
 	{
-		new[i++] = *s2;
-		s2++;
+		state->err = 1;
+		*table = NONE;
 	}
-	new[i] = 0;
-	return (new);
 }
