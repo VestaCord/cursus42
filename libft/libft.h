@@ -6,7 +6,7 @@
 /*   By: vtian <vtian@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 18:01:32 by vtian             #+#    #+#             */
-/*   Updated: 2025/05/30 16:56:34 by vtian            ###   ########.fr       */
+/*   Updated: 2025/06/30 22:42:09 by vtian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,6 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-
-/*
-My Own Macros
-*/
-// The strlen of the largest signed decimal integer 2147483647 (excl sign)
-#define LOG10_MAX_INT 10
 
 /*
 Part 1 - Libc functions (MANDATORY)
