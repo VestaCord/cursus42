@@ -6,7 +6,7 @@
 /*   By: vtian <vtian@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:20:11 by vtian             #+#    #+#             */
-/*   Updated: 2025/06/30 23:11:15 by vtian            ###   ########.fr       */
+/*   Updated: 2025/07/03 23:52:04 by vtian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,19 @@
 #include "libft.h"
 
 // Inserts padding up to width - strlen(string)
-void	pad(FILE *s, t_state *state, UCHAR_T *string, int width)
+void	pad(FILE *s, t_state *state, unsigned char *string, int width)
 {
 	if (width > (int)ft_strlen((const char *)string))
 	{
 		while (width > (int)ft_strlen((const char *)string))
 		{
-			outstring(s, &state->done, (CHAR_T *)&state->spec->pad, 1);
+			outstring(s, &state->done, (char *)&state->spec->pad, 1);
 			width--;
 		}
 	}
 }
 
-void	pad_zero(FILE *s, t_state *state, UCHAR_T *string, int width)
+void	pad_zero(FILE *s, t_state *state, unsigned char *string, int width)
 {
 	state->spec->pad = '0';
 	pad(s, state, string, width);
@@ -37,17 +37,22 @@ void	pad_zero(FILE *s, t_state *state, UCHAR_T *string, int width)
 // NONLIBC [flags][width][.precision]conversion
 // designated initializer list for dispatching specifiers
 // accessed by specifier  (the smallest ascii escaped)
-static const t_dispatch_handler	g_dispatch_table[('x' + 1)] = {
-['c'] = spec_conversion_char,
-['s'] = spec_conversion_string,
-['p'] = spec_conversion_pointer,
-['d'] = spec_conversion_int,
-['i'] = spec_conversion_int,
-['u'] = spec_conversion_uint,
-['x'] = spec_conversion_hex,
-['X'] = spec_conversion_hex,
-['%'] = spec_conversion_percent
-};
+
+t_dispatch_handler *get_dispatch_table() 
+{
+	static const t_dispatch_handler	table[('x' + 1)] = {
+	['c'] = spec_conversion_char,
+	['s'] = spec_conversion_string,
+	['p'] = spec_conversion_pointer,
+	['d'] = spec_conversion_int,
+	['i'] = spec_conversion_int,
+	['u'] = spec_conversion_uint,
+	['x'] = spec_conversion_hex,
+	['X'] = spec_conversion_hex,
+	['%'] = spec_conversion_percent
+	};
+	return (table);
+}
 
 void	dispatch(FILE *s, va_list ap, t_state *state)
 {
@@ -57,9 +62,9 @@ void	dispatch(FILE *s, va_list ap, t_state *state)
 	while (table != NONE)
 	{
 		if ((unsigned char)*state->f > 'x'
-			|| !g_dispatch_table[(unsigned char)*state->f])
+			|| !get_dispatch_table()[(unsigned char)*state->f])
 			state->err = 1;
 		else
-			(*g_dispatch_table[(unsigned char)*state->f])(s, ap, state, &table);
+			(*get_dispatch_table()[(unsigned char)*state->f])(s, ap, state, &table);
 	}
 }
