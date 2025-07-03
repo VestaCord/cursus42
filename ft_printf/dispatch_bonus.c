@@ -6,7 +6,7 @@
 /*   By: vtian <vtian@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:20:11 by vtian             #+#    #+#             */
-/*   Updated: 2025/07/03 23:52:04 by vtian            ###   ########.fr       */
+/*   Updated: 2025/07/03 23:59:55 by vtian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	pad_zero(FILE *s, t_state *state, unsigned char *string, int width)
 // NONLIBC [flags][width][.precision]conversion
 // designated initializer list for dispatching specifiers
 // accessed by specifier  (the smallest ascii escaped)
-t_dispatch_handler *get_dispatch_table() 
+const t_dispatch_handler	*get_dispatch_table() 
 {
 	size_t						i;
 	static t_dispatch_handler	table[('x' + 1)] = {
