@@ -6,7 +6,7 @@
 /*   By: vtian <vtian@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 22:57:13 by vtian             #+#    #+#             */
-/*   Updated: 2025/06/30 22:57:16 by vtian            ###   ########.fr       */
+/*   Updated: 2025/07/04 00:56:03 by vtian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "libft.h"
 
 // returns digits of n in whatever base
-int	ft_digits_base(unsigned int n, int base)
+int	ft_digits_base(unsigned long long n, int base)
 {
 	int	i;
 
@@ -29,7 +29,7 @@ int	ft_digits_base(unsigned int n, int base)
 	return (i);
 }
 
-char	*ft_utoa(unsigned int n, int base)
+char	*ft_utoa(unsigned long long n, int base)
 {
 	int				len;
 	char			*str;
@@ -54,14 +54,14 @@ void	spec_conversion_uint(FILE *s, va_list ap, t_state *state,
 	t_dispatch_step *table)
 {
 	unsigned int	n;
-	UCHAR_T			*str;
+	unsigned char	*str;
 	int				width;
 
 	n = va_arg(ap, unsigned int);
 	str = (unsigned char *)ft_utoa(n, 10);
 	width = state->spec->width + (!state->spec->prec && !n);
-	if (state->spec->prec > (int)ft_strlen((CHAR_T *)str))
-		width -= state->spec->prec - ft_strlen((CHAR_T *)str);
+	if (state->spec->prec > (int)ft_strlen((char *)str))
+		width -= state->spec->prec - ft_strlen((char *)str);
 	if (!state->spec->left)
 		pad(s, state, str, width);
 	state->spec->pad = '0';
@@ -70,7 +70,7 @@ void	spec_conversion_uint(FILE *s, va_list ap, t_state *state,
 	state->spec->pad = ' ';
 	if (!state->spec->prec && *str == '0' && str[1] == '\0')
 		*str = '\0';
-	outstring(s, &state->done, (CHAR_T *)str, ft_strlen((char *)str));
+	outstring(s, &state->done, (char *)str, ft_strlen((char *)str));
 	if (state->spec->left)
 		pad(s, state, str, width);
 	free(str);

@@ -6,7 +6,7 @@
 /*   By: vtian <vtian@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:20:11 by vtian             #+#    #+#             */
-/*   Updated: 2025/07/04 00:02:13 by vtian            ###   ########.fr       */
+/*   Updated: 2025/07/04 00:12:16 by vtian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	pad_zero(FILE *s, t_state *state, unsigned char *string, int width)
 // NONLIBC [flags][width][.precision]conversion
 // designated initializer list for dispatching specifiers
 // accessed by specifier  (the smallest ascii escaped)
-const t_dispatch_handler	*get_dispatch_table() 
+const t_dispatch_handler	*get_dispatch_table(void)
 {
 	size_t						i;
 	static t_dispatch_handler	table[('x' + 1)] = {
@@ -75,6 +75,7 @@ void	dispatch(FILE *s, va_list ap, t_state *state)
 			|| !get_dispatch_table()[(unsigned char)*state->f])
 			state->err = 1;
 		else
-			(*get_dispatch_table()[(unsigned char)*state->f])(s, ap, state, &table);
+			(*get_dispatch_table()[(unsigned char)*state->f])
+				(s, ap, state, &table);
 	}
 }

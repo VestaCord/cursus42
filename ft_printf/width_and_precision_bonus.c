@@ -6,7 +6,7 @@
 /*   By: vtian <vtian@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 01:38:23 by vtian             #+#    #+#             */
-/*   Updated: 2025/06/30 23:03:28 by vtian            ###   ########.fr       */
+/*   Updated: 2025/07/04 00:13:07 by vtian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "ft_printf_internal_bonus.h"
 #include "libft.h"
 
-unsigned int	read_int(const UCHAR_T **f)
+unsigned int	read_int(const unsigned char **f)
 {
 	unsigned int	n;
 

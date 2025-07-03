@@ -44,14 +44,14 @@ The only rare language feature here is the use of varargs to get at arguments in
 ### vprintf implementation
 
 	# declaration
-	int	vfprintf (FILE *s, const CHAR_T *format, va_list ap)
+	int	vfprintf (FILE *s, const char *format, va_list ap)
 
-What is `CHAR_T`? It is decided at compile time to be `wchar_t` if wide characters are needed (see `wprintf`), else it is `char`.
+What is `char`? It is decided at compile time to be `wchar` if wide characters are needed (see `wprintf`), else it is `char`.
 
 	#ifndef COMPILE_WPRINTF
-	 #define CHAR_T char
+	 #define char char
 	#else
-	 #define CHAR_T wchar_t
+	 #define char wchar
 	#endif
 
 The implementation of `FILE` is from the [libio.h][4] implementation originally found in GNU libg++.

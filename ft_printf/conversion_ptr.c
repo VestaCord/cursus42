@@ -6,7 +6,7 @@
 /*   By: vtian <vtian@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 22:53:58 by vtian             #+#    #+#             */
-/*   Updated: 2025/06/30 23:29:28 by vtian            ###   ########.fr       */
+/*   Updated: 2025/07/04 00:57:22 by vtian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 #include "libft.h"
 
 // sets buf to n 0x value in string form
-void	ft_set_ptoa(UCHAR_T *buf, void *p)
+void	ft_set_ptoa(unsigned char *buf, void *p)
 {
 	int					i;
 	unsigned long long	n;
-	const UCHAR_T		*hex_base = (UCHAR_T *)"0123456789abcdef";
+	const unsigned char	*hex_base = (unsigned char *)"0123456789abcdef";
 
 	n = (unsigned long long)p;
 	buf[12] = 0;
@@ -40,15 +40,17 @@ void	ft_set_ptoa(UCHAR_T *buf, void *p)
 void	spec_conversion_pointer(FILE *s, va_list ap, t_state *state,
 	t_dispatch_step *table)
 {
-	UCHAR_T	str[15];
-	void	*p;
+	unsigned char	*str;
+	void			*p;
+	unsigned char	*tmp;
 
 	p = (void *)va_arg(ap, void *);
-	ft_strlcpy((CHAR_T *)str, "0x", 3);
-	ft_set_ptoa(str + 2, p);
+	tmp = (unsigned char *)ft_utoa((unsigned long long)p, 16);
+	str = (unsigned char *)ft_strjoin("0x", (char *)tmp);
+	free (tmp);
 	if (!state->spec->left)
 		pad(s, state, str, state->spec->width);
-	outstring(s, &state->done, (CHAR_T *)str, ft_strlen((char *)str));
+	outstring(s, &state->done, (char *)str, ft_strlen((char *)str));
 	if (state->spec->left)
 		pad(s, state, str, state->spec->width);
 	*table = NONE;

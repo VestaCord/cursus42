@@ -6,76 +6,74 @@
 /*   By: vtian <vtian@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 21:36:40 by vtian             #+#    #+#             */
-/*   Updated: 2025/06/30 22:56:22 by vtian            ###   ########.fr       */
+/*   Updated: 2025/07/04 00:53:00 by vtian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_INTERNAL_H
 # define FT_PRINTF_INTERNAL_H
-# define UCHAR_T unsigned char
-# define CHAR_T char
 # include <stdarg.h>
 # include <stdio.h>
 
 typedef struct s_spec
 {
 	/* Flag for negative number.  */
-	int			is_negative;
-	long long	number;
-	int			base;
+	int				is_negative;
+	long long		number;
+	int				base;
 	/* Pointer to argument string.  */
-	CHAR_T		*string;
+	char			*string;
 	/* Alternate format.  */
-	int			alt;
+	int				alt;
 	/* Use space prefix if no sign is needed.  */
-	int			space;
+	int				space;
 	/* Left-justify output.  */
-	int			left;
+	int				left;
 	/* Always begin with plus or minus sign.  */
-	int			showsign;
-	/* Print	numbers according grouping rules.  */
-	int			group;
+	int				showsign;
+	/* Print		numbers according grouping rules.  */
+	int				group;
 	/* Argument is long double/ long long int.  */
-	int			is_long_double;
+	int				is_long_double;
 	/* Argument is short int.  */
-	int			is_short;
+	int				is_short;
 	/* Argument is long int.  */
-	int			is_long;
+	int				is_long;
 	/* Argument is promoted (unsigned) char.  */
-	int			is_char;
+	int				is_char;
 	/* Width of output; 0 means none specified.  */
-	int			width;
+	int				width;
 	/* Precision of output; -1 means none specified.  */
-	int			prec;
+	int				prec;
 	/* This flag is set by the 'I' modifier and selects the use of the
 	`outdigits' as determined by the current locale.  */
-	int			use_outdigits;
+	int				use_outdigits;
 	/* Padding character.  */
-	UCHAR_T		pad;
-	CHAR_T		spec;
+	unsigned char	pad;
+	char			spec;
 }	t_spec;
 
 typedef struct s_state
 {
 	// Place to accumulate the result.
-	int				done;
+	int					done;
 	// Current character in format string.
-	const UCHAR_T	*f;
+	const unsigned char	*f;
 	// UNUSED End of leading constant string.
-	const UCHAR_T	*lead_str_end;
+	const unsigned char	*lead_str_end;
 	// Points to next format specifier.
-	const UCHAR_T	*end_of_spec;
+	const unsigned char	*end_of_spec;
 	// Buffer intermediate results.
-	// CHAR_T			work_buffer[1000];
-	// CHAR_T			*workstart;
-	// CHAR_T			*workend;
+	// char			work_buffer[1000];
+	// char			*workstart;
+	// char			*workend;
 	// We have to save the original argument pointer.
-	va_list			ap_save;
+	va_list				ap_save;
 	// Count number of specifiers we already processed.
-	int				nspecs_done;
+	int					nspecs_done;
 	// NON LIBC Error propagation bit.
-	int				err;
-	t_spec			*spec;
+	int					err;
+	t_spec				*spec;
 }	t_state;
 
 typedef enum dispatch_step
@@ -86,13 +84,13 @@ typedef enum dispatch_step
 	STEP_FORMAT
 }	t_dispatch_step;
 
-void	pad(FILE *s, t_state *state, UCHAR_T *string, int width);
+void	pad(FILE *s, t_state *state, unsigned char *string, int width);
 
-void	pad_zero(FILE *s, t_state *state, UCHAR_T *string, int width);
+void	pad_zero(FILE *s, t_state *state, unsigned char *string, int width);
 
-void	outstring(FILE *s, int *done, const CHAR_T *string, int len);
+void	outstring(FILE *s, int *done, const char *string, int len);
 
-char	*ft_utoa(unsigned int n, int base);
+char	*ft_utoa(unsigned long long n, int base);
 
 void	spec_conversion_char(FILE *s, va_list ap, t_state *state,
 			t_dispatch_step *table);

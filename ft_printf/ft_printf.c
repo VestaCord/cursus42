@@ -6,7 +6,7 @@
 /*   By: vtian <vtian@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 17:25:40 by vtian             #+#    #+#             */
-/*   Updated: 2025/06/13 19:03:05 by vtian            ###   ########.fr       */
+/*   Updated: 2025/07/04 00:14:13 by vtian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 // Writes string of len to file and write to done
 // Sets done -1 if failed to print len
-void	outstring(FILE *s, int *done, const CHAR_T *string, int len)
+void	outstring(FILE *s, int *done, const char *string, int len)
 {
 	int	i;
 
@@ -35,7 +35,7 @@ void	outstring(FILE *s, int *done, const CHAR_T *string, int len)
 }
 
 // Returns char ptr to %specifier
-const UCHAR_T	*find_spec(const UCHAR_T *format)
+const unsigned char	*find_spec(const unsigned char *format)
 {
 	while (*format && *format != '%')
 		format++;
@@ -50,17 +50,17 @@ void	spec_reset(t_spec *spec)
 	spec->pad = ' ';
 }
 
-int	ft_vfprintf(FILE *s, const CHAR_T *format, va_list ap)
+int	ft_vfprintf(FILE *s, const char *format, va_list ap)
 {
 	int		done;
 	t_state	*state;
 
 	state = ft_calloc(1, sizeof(t_state));
 	state->spec = ft_calloc(1, sizeof(t_spec));
-	state->lead_str_end = find_spec((const UCHAR_T *)format);
+	state->lead_str_end = find_spec((const unsigned char *)format);
 	state->f = state->lead_str_end;
 	outstring(s, &state->done, format,
-		state->f - (const UCHAR_T *)format);
+		state->f - (const unsigned char *)format);
 	while (*(state->f) && state->done != -1)
 	{
 		spec_reset(state->spec);
@@ -69,7 +69,7 @@ int	ft_vfprintf(FILE *s, const CHAR_T *format, va_list ap)
 		++(state->nspecs_done);
 		state->end_of_spec = ++(state->f);
 		state->f = find_spec(state->end_of_spec);
-		outstring(s, &state->done, (CHAR_T *)state->end_of_spec,
+		outstring(s, &state->done, (char *)state->end_of_spec,
 			state->f - state->end_of_spec);
 	}
 	done = state->done;
