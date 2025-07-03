@@ -6,7 +6,7 @@
 /*   By: vtian <vtian@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:20:11 by vtian             #+#    #+#             */
-/*   Updated: 2025/07/03 23:59:55 by vtian            ###   ########.fr       */
+/*   Updated: 2025/07/04 00:02:13 by vtian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ const t_dispatch_handler	*get_dispatch_table()
 
 	i = '1';
 	while (i <= '9')
-		table[i] = spec_raw_digit;
+		table[i++] = spec_raw_digit;
 	return (table);
 }
 
