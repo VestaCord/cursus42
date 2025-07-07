@@ -101,12 +101,30 @@ void	ft_printf_header(char *s)
 }
 
 int main(int argc, char **argv) {
+
+	// use online testers!!
+
+	// legacy
     int i = 2147483647;
     int neg = -2147483648;
     unsigned int u = 4294967295;
     char c = 'A';
     char *s = "hello";
     void *p = &i;
+
+	// Test Variables
+	// char				*string_normal = "Sample string!\t\r\t\v";
+	// char				string_big[1152921504606846976];
+	// ft_memset(string_big, 70, 1152921504606846975);
+	// string_big[1152921504606846976] = 0;
+	char	evil_string[] = {'r', 'u', 'n'};
+	unsigned long long	hex_max = (unsigned long long)18446744073709551615;
+	// int					int_max = 2147483647;
+	void				*pointer_normal = &hex_max;
+	void				*pointer_max;
+	pointer_max = (void *)hex_max;
+	// char				char_normal = 'a';
+	char				char_weird = '\r';
 
 	if (argc != 2 || (argv[1][0] != 'a' && argv[1][0] != 'm'
 		&& argv[1][0] != 'b'))
@@ -129,17 +147,30 @@ int main(int argc, char **argv) {
 		ft_printf_tester("raw: This is the most basic test");
 		ft_printf_header("CHARACTERS");
 		ft_printf_tester("char:    [%c]", c);
+		ft_printf_tester("char:    [%c]", char_weird);
 		ft_printf_header("STRINGS");
     	ft_printf_tester("string:       [%s]", s);
+		ft_printf_tester("string:       [%s]", evil_string);
+		// ft_printf_tester("string:       [%s]", string_big);
 		ft_printf_header("POINTERS");
 		ft_printf_tester("pointer: [%p]", p);
 		p = (void *)0x100;
 		ft_printf_tester("pointer: [%p]", p);
+		ft_printf_tester("pointer: [%p]", 0);
+		ft_printf_tester("pointer: [%p]", pointer_max - 1);
+		ft_printf_tester("pointer: [%p]", pointer_max);
+		ft_printf_tester("pointer: [%p]", pointer_max + 1);
+		ft_printf_tester("pointer: [%p]", pointer_max + 2);
+		ft_printf_tester("pointer: [%p]", pointer_normal);
 		ft_printf_header("INT");
     	ft_printf_tester("int d,i,u:    [%d, %i, %u]", i, neg, u);
 		ft_printf_header("HEX");
     	ft_printf_tester("HEX:          [%X]", u); 
-    	ft_printf_tester("hex:          [%x]", u);
+    	ft_printf_tester("hex:          [%x]", 0);
+		ft_printf_tester("HEX:          [%X]", hex_max - 1); 
+		ft_printf_tester("HEX:          [%X]", hex_max); 
+    	ft_printf_tester("hex:          [%x]", hex_max + 1);
+		ft_printf_tester("HEX:          [%X]", hex_max + 2);
 	}
 	if (argv[1][0] == 'm')
 		exit (0);
@@ -208,6 +239,9 @@ int main(int argc, char **argv) {
     ft_printf_tester("hex -#10.prec4:   [%-#10.4x]", 42);
 	ft_printf_tester("hex .prec5:    [%.5x]", u);
 	ft_printf_tester("hex 10.prec0:    [%10.0x]", u);
+	ft_printf_tester("hex 10.prec0:    [%10.0x]", hex_max);
+	ft_printf_tester("hex 10.prec0:    [%10.0x]", hex_max + 1);
+	ft_printf_tester("hex 10.prec0:    [%10.0x]", hex_max + 2);
 	ft_printf_tester("hex +2.prec5:    [%+2.5x]", 0);
 	ft_printf_tester("hex .prec0:    [%.0x]", 0);
 	ft_printf_tester("hex +2.prec0:    [%+2.0x]", 0);

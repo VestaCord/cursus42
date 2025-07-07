@@ -19,18 +19,26 @@ NAME			= ftprintftester
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-all:			$(NAME)
+all:		$(NAME)
 
-$(NAME):		$(OBJS)
-				${CC} ${LDFLAGS} ${OBJS} -o ${NAME} ${LDLIBS}
+bonus:		$(OBJS)
+	@make bonus -C ..
+	${CC} ${LDFLAGS} ${OBJS} -o ${NAME} ${LDLIBS}
+
+$(NAME):	$(OBJS)
+	@make -C ..
+	${CC} ${LDFLAGS} ${OBJS} -o ${NAME} ${LDLIBS}
 
 clean:	
-				$(RM) $(OBJS) $(BONUS_OBJS)
+	$(RM) $(OBJS) $(BONUS_OBJS)
+	@make clean -C ..
 
-fclean:			clean
-				$(RM) $(NAME)
+fclean:		clean
+	$(RM) $(NAME)
+	@make fclean -C ..
 
-re:				fclean $(NAME)
+re:	fclean $(NAME)
+	@make re -C ..
 
 # dont actually need this because we dont have files of these names
 .PHONY:			all clean fclean re bonus

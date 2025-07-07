@@ -6,7 +6,7 @@
 /*   By: vtian <vtian@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 22:53:58 by vtian             #+#    #+#             */
-/*   Updated: 2025/07/04 00:57:22 by vtian            ###   ########.fr       */
+/*   Updated: 2025/07/07 21:06:18 by vtian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,19 @@ void	spec_conversion_pointer(FILE *s, va_list ap, t_state *state,
 	unsigned char	*tmp;
 
 	p = (void *)va_arg(ap, void *);
-	tmp = (unsigned char *)ft_utoa((unsigned long long)p, 16);
-	str = (unsigned char *)ft_strjoin("0x", (char *)tmp);
-	free (tmp);
+	if (p)
+	{
+		tmp = (unsigned char *)ft_utoa((unsigned long long)p, 16);
+		str = (unsigned char *)ft_strjoin("0x", (char *)tmp);
+		free (tmp);
+	} else {
+		str = (unsigned char *)ft_strdup("(nil)");
+	}
 	if (!state->spec->left)
 		pad(s, state, str, state->spec->width);
 	outstring(s, &state->done, (char *)str, ft_strlen((char *)str));
 	if (state->spec->left)
 		pad(s, state, str, state->spec->width);
+	free(str);
 	*table = NONE;
 }

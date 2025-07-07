@@ -6,7 +6,7 @@
 /*   By: vtian <vtian@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 23:16:50 by vtian             #+#    #+#             */
-/*   Updated: 2025/07/04 00:15:58 by vtian            ###   ########.fr       */
+/*   Updated: 2025/07/07 21:06:49 by vtian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	spec_conversion_hex(FILE *s, va_list ap, t_state *state,
 	unsigned char		*str;
 	int					width;
 
-	str = (unsigned char *)ft_utoa(va_arg(ap, unsigned long long), 16);
+	str = (unsigned char *)ft_utoa(va_arg(ap, unsigned int), 16);
 	width = state->spec->width - 2 * (state->spec->alt)
 		+ (!state->spec->prec && !ft_strncmp((char *)str, "0", 2));
 	if (state->spec->prec > (int)ft_strlen((char *)str))
