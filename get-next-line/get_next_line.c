@@ -6,39 +6,35 @@
 /*   By: vtian <vtian@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 00:17:51 by vtian             #+#    #+#             */
-/*   Updated: 2025/06/21 00:39:39 by vtian            ###   ########.fr       */
+/*   Updated: 2025/07/07 21:33:09 by vtian            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <unistd.h>
+#include "unistd.h"
 
-char	*read_file(int fd, char *line_buffer)
-// arbitrary bytes_read intial value
-// read_buffer must bzero in case bytes_r < bufsize
+char	*prune_buffer(char *buffer)
+// don't need to set last char of new_buf bc calloc
 {
-	char	*read_buffer;
-	char	*tmp;
-	int		bytes_read;
+	int		i;
+	int		j;
+	char	*line;
 
-	read_buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	bytes_read = 1;
-	while (bytes_read && !ft_strchr(read_buffer, '\n'))
+	i = 0;
+	while (buffer[i] && buffer[i] != '\n')
+		i++;
+	if (!buffer[i])
 	{
-		ft_bzero(read_buffer, BUFFER_SIZE);
-		bytes_read = read(fd, read_buffer, BUFFER_SIZE);
-		if (bytes_read == -1)
-		{
-			free(line_buffer);
-			return (NULL);
-		}
-		read_buffer[bytes_read] = 0;
-		tmp = ft_strjoin(line_buffer, read_buffer);
-		free(line_buffer);
-		line_buffer = tmp;
+		free(buffer);
+		return (NULL);
 	}
-	free(read_buffer);
-	return (line_buffer);
+	line = ft_calloc((ft_strlen(buffer) - i + 1), sizeof(char));
+	i++;
+	j = 0;
+	while (buffer[i])
+		line[j++] = buffer[i++];
+	free(buffer);
+	return (line);
 }
 
 char	*read_line(char *line_buffer)
@@ -47,43 +43,53 @@ char	*read_line(char *line_buffer)
 	char	*line;
 	int		i;
 
-	if (!*line_buffer)
-		return (NULL);
 	i = 0;
+	if (!line_buffer[i])
+		return (NULL);
 	while (line_buffer[i] && line_buffer[i] != '\n')
 		i++;
-	line = calloc(i + 1, sizeof(char));
+	line = ft_calloc(i + 2, sizeof(char));
 	i = 0;
 	while (line_buffer[i] && line_buffer[i] != '\n')
 	{
 		line[i] = line_buffer[i];
-		++i;
+		i++;
 	}
+	if (line_buffer[i] && line_buffer[i] == '\n')
+		line[i++] = '\n';
 	return (line);
 }
 
-char	*prune_buffer(char *line_buffer)
-// don't need to set last char of new_buf bc calloc
+char	*read_file(int fd, char *line_buffer)
+// arbitrary bytes_read intial value
+// read_buffer must bzero in case bytes_r < bufsize
+// 	alternative is read_buffer[byte_read] = 0;
 {
-	int		i;
-	int		j;
-	char	*new_buffer;
+	char	*read_buffer;
+	char	*tmp;
+	int		byte_read;
 
-	i = 0;
-	while (line_buffer[i] && line_buffer[i] != '\n')
-		i++;
-	if (!line_buffer[i])
+	if (!line_buffer)
+		line_buffer = ft_calloc(1, 1);
+	read_buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	byte_read = 1;
+	while (byte_read > 0)
 	{
-		free(line_buffer);
-		return (NULL);
+		ft_bzero(read_buffer, BUFFER_SIZE);
+		byte_read = read(fd, read_buffer, BUFFER_SIZE);
+		if (byte_read == -1)
+		{
+			free(read_buffer);
+			return (NULL);
+		}
+		tmp = line_buffer;
+		line_buffer = ft_strjoin(tmp, read_buffer);
+		free(tmp);
+		if (ft_strchr(read_buffer, '\n'))
+			break ;
 	}
-	new_buffer = ft_calloc((ft_strlen(line_buffer) - i + 1), sizeof(char));
-	++i;
-	j = 0;
-	while (line_buffer[i])
-		new_buffer[j++] = line_buffer[i++];
-	free(line_buffer);
-	return (new_buffer);
+	free(read_buffer);
+	return (line_buffer);
 }
 
 char	*get_next_line(int fd)
@@ -94,17 +100,15 @@ char	*get_next_line(int fd)
 // get_line extracts the line from buffer
 // prune_buffer removes the extracted line
 {
-	static char	*line_buffer;
+	static char	*buffer;
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
-	if (!line_buffer)
-		line_buffer = ft_calloc(1, 1);
-	line_buffer = read_file(fd, line_buffer);
-	if (!line_buffer)
+	buffer = read_file(fd, buffer);
+	if (!buffer)
 		return (NULL);
-	line = read_line(line_buffer);
-	line_buffer = prune_buffer(line_buffer);
+	line = read_line(buffer);
+	buffer = prune_buffer(buffer);
 	return (line);
 }
